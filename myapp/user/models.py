@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from multiselectfield import MultiSelectField
+
 
 
 # Create your models here.
@@ -9,10 +11,15 @@ class BaseUser(AbstractUser):
 
 
 class Ngo(models.Model):
+    MY_CHOICES = ((1, 'Child welfare'),
+              (2, 'Education'),
+              (3, 'Special needs'),
+              (4, 'Healthcare'),
+              (5, 'Women welfare'))
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='ngo')
     org_name = models.CharField(max_length=100)
     gsn = models.IntegerField()
-    primary_cause = models.CharField(max_length=200, null=True)
+    primary_cause = MultiSelectField(choices=MY_CHOICES, max_length=200)
     address = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=100)
     email = models.EmailField()

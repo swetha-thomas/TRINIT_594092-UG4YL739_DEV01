@@ -20,7 +20,7 @@ class SignUpForm(UserCreationForm):
 class NgoRegisterForm(forms.ModelForm):
     class Meta:
         model = Ngo
-        fields = ['org_name','gsn','state','certification','phone_number',]
+        fields = ['org_name','gsn','state','certification','phone_number','primary_cause']
 
 
 class PhilanthropistRegisterForm(forms.ModelForm):
