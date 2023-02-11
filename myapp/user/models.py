@@ -19,7 +19,7 @@ class Ngo(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='ngo')
     org_name = models.CharField(max_length=100)
     gsn = models.IntegerField()
-    primary_cause = MultiSelectField(choices=MY_CHOICES, max_length=200)
+    primary_cause = MultiSelectField(choices=MY_CHOICES, max_length=200, null=True)
     address = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=100)
     email = models.EmailField()

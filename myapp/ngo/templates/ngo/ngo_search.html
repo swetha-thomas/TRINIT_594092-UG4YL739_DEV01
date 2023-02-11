@@ -197,7 +197,6 @@
                   </li>
                 </ul>
               </li>
-
             <li class="filter-parameter btn-group">
               <button
                 type="button"
@@ -209,30 +208,21 @@
                 State
               </button>
               <ul class="dropdown-menu">
+                {% for state in states %}
+
                 <li class="filter-value">
                   <input
                     type="checkbox"
                     class="check-input"
                     name="state"
                     id="exampleCheck1"
-                    value="Andhra Pradesh"
+                    value="{{ state }}"
                   />
                   <label class="dropdown-item label" for="exampleCheck1">
-                    Andhra Pradesh
+                    {{ state }}
                   </label>
                 </li>
-                <li class="filter-value">
-                    <input
-                      type="checkbox"
-                      class="check-input"
-                      name="state"
-                      id="exampleCheck1"
-                      value="Arunachal Pradesh"
-                    />
-                    <label class="dropdown-item label" for="exampleCheck1">
-                        Arunachal Pradesh
-                    </label>
-                  </li>
+                {% endfor %}
               </ul>
             </li>
             <li class="filter-parameter btn-group">
@@ -448,104 +438,35 @@
           <ul class="job-list">
             {% for ngo in ngos %}
             <li class="job">
-              <a href="#" id="job-link" onclick = "job_desc({{org.username}})">
+              <a href="#" id="job-link" name="{{ ngo.username }}" onclick = "ngo_desc(name)">
                 <img class="job-company-img" src="{% static 'img/job-company-1.jpg' %}" alt="">
                 <div class="job-mini-details">
                   <div class="job-title">{{ ngo.org_name }}</div>
-                  <div class="job-company">{{ job.company.org_name }}</div>
-                  <div class="job-address">{{ job.location_of_work }}</div>
+                  <div class="job-company">{{ ngo.primary_cause }}</div>
+                  <div class="job-address">{{ ngo.state }}</div>
                 </div>
               </a>
             </li>
-            {% endfor %}
 
-            {% comment %} <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-2.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Data Center Technician Intern</div>
-                  <div class="job-company">Amazon</div>
-                  <div class="job-address">Durrat Al Bahrain, Southern Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-1.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Sr Solutions Architect - Egypt</div>
-                  <div class="job-company">Amazon Web Services (AWS)</div>
-                  <div class="job-address">Manama, Capital Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-2.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Data Center Technician Intern</div>
-                  <div class="job-company">Amazon</div>
-                  <div class="job-address">Durrat Al Bahrain, Southern Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-1.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Sr Solutions Architect - Egypt</div>
-                  <div class="job-company">Amazon Web Services (AWS)</div>
-                  <div class="job-address">Manama, Capital Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-2.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Data Center Technician Intern</div>
-                  <div class="job-company">Amazon</div>
-                  <div class="job-address">Durrat Al Bahrain, Southern Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-1.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Sr Solutions Architect - Egypt</div>
-                  <div class="job-company">Amazon Web Services (AWS)</div>
-                  <div class="job-address">Manama, Capital Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li>
-            <li class="job">
-              <a href="">
-                <img class="job-company-img" src="{% static 'img/job-company-2.jpg' %}" alt="">
-                <div class="job-mini-details">
-                  <div class="job-title">Data Center Technician Intern</div>
-                  <div class="job-company">Amazon</div>
-                  <div class="job-address">Durrat Al Bahrain, Southern Governorate, Bahrain</div>
-                </div>
-              </a>
-            </li> {% endcomment %}
+            {% endfor %}
           </ul>
         </div>
         
         <div class="job-desc-col">
           <article class="job-desc">
-            {% for job in jobs %}
-            <div id = "job-{{job.id}}" class="job-desc-container" style = "display: none">
+            {% for ngo in ngos %}
+
+            <div id = "job-{{ngo.username}}" class="job-desc-container" style = "display: none">
               
             <header class="job-desc-top">
               <div class="job-desc-title">
-                {{ job.job_name }}
+                {{ ngo.org_name }}
               </div>
               <div class="job-desc-company">
-                {{ job.company }}
+                {{ ngo.primary_cause }}
               </div>
               <div class="job-desc-address">
-                {{ job.location_of_work }}
+                {{ ngo.state }}
               </div>
               <div class="job-desc-time">
                 {% comment %} will later change it to dynamic time calcuated as current timestamp - date of job posted {% endcomment %}
@@ -581,13 +502,15 @@
             </article>
           </div>
           {% endfor %}
-            </div>
+
           </article>
+
         </div>
       </section>
 
     </main>
 
+    <script src="{% static 'ngo/assets/js/ngo_search.js' %}"></script>
 
     <!-- Bootstrap Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
