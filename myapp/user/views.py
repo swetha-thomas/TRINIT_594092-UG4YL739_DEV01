@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import NgoRegisterForm, PhilanthropistRegisterForm, SignUpForm
+from django.contrib.auth import authenticate, login as login_user
+from user.models import Philanthropist, Ngo
 
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 
@@ -33,7 +39,7 @@ def register(request, user_type):
 
 def login(request):
   if request.method == 'POST':
-    if request.POST.get('user_role') == 'ngo':
+    if request.POST.get('user_type') == 'ngo':
       password = request.POST["password"]
       username = request.POST["username"]
       user = authenticate(username=username, password=password)
@@ -55,7 +61,6 @@ def login(request):
       user = authenticate(username=username, password=password)
       if user is not None:
         login_user(request, user)
-        print(Philanthropist.objects.filter(user=user))
         
         if Philanthropist.objects.filter(user=user).count() != 0:
           return redirect('philanthropistHome')
