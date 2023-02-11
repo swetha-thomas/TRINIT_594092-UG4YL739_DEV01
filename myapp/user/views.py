@@ -3,6 +3,10 @@ from .forms import NgoRegisterForm, PhilanthropistRegisterForm, SignUpForm
 
 
 # Create your views here.
+
+def landing_page_view(request):
+    return render(request, 'user/landing_page.html')
+
 def register(request, user_type):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
