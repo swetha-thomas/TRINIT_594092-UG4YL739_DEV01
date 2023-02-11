@@ -1,0 +1,15 @@
+
+
+{% block content %}
+    {% if user_type == "ngo" %}
+        <h2>Register as an NGO</h2>
+        {% else %}
+        <h2>Register as a Philanthropist</h2>
+    {% endif %}
+    <form method="post">
+    {% csrf_token %}
+        {{ form }}
+        {{ d_form }}
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+{% endblock %}
