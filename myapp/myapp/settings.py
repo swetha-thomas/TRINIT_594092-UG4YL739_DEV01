@@ -34,13 +34,19 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'user.apps.UserConfig',
     'ngo.apps.NgoConfig',
+    'philanthropist.apps.PhilanthropistConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'multiselectfield',
+    'multiselectfield', 
+    'chat.apps.ChatConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',    
+    'rest_framework',
+    'widget_tweaks'
 
 ]
 
@@ -126,6 +132,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

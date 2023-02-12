@@ -8,7 +8,23 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_protect
 
+import requests
+from bs4 import BeautifulSoup
+
 # Create your views here.
+
+def emailExtractor(urlString):
+  emails = []
+  getH = requests.get(urlString)
+  h=getH.content
+  soup = BeautifulSoup(h,'html.parser')
+  a_tags = soup.find_all('a',href=True)
+
+  for atag in a_tags:
+    if "mailto:" in atag['href']:
+      emails.append(atag.text)
+  
+  return emails
 
 def landing_page_view(request):
     return render(request, 'user/landing_page.html')
@@ -22,11 +38,29 @@ def register(request, user_type):
             user = form.save(commit=False)
             user.is_ngo = True if user_type == 'ngo' else False
             user.is_philanthropist = True if user_type == 'philanthropist' else False
-            user.save()
-            d_form = d_form.save(commit=False)
-            d_form.user = user
-            d_form.save()
-            return redirect('login')
+
+            if user_type=='ngo':
+              gsn = str(d_form.cleaned_data['gsn'])
+              email = form.cleaned_data['email']
+              emailList = []
+              htmlString = 'https://guidestarindia.org/summary.aspx?CCReg='
+              urlString = htmlString+gsn
+              emailList=emailExtractor(urlString)
+
+              if emailList[0]==email:    
+                user.save()
+                d_form = d_form.save(commit=False)
+                d_form.user = user
+                d_form.save()
+                return redirect('login')
+              else:
+                return redirect('/register/ngo')
+            else:
+              user.save()
+              d_form = d_form.save(commit=False)
+              d_form.user = user
+              d_form.save()
+              return redirect('login')
     else:
         form = SignUpForm()
         d_form = NgoRegisterForm() if user_type == 'ngo' else PhilanthropistRegisterForm()
