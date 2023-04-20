@@ -11,4 +11,4 @@ and philanthropists and provide larger audience for NGOs. This helps improve tra
 - Make Migrations `python manage.py makemigrations`
 - Migrate paytm app for transactions details `python manage.py migrate`
 - Now in terminal run the server `python manange.py runserver`
-- Open `http://127.0.0.1:5000`
+- Open `http://127.0.0.1:8000`
